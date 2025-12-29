@@ -1,0 +1,18 @@
+[submodule "legend"]
+	path = legend
+	url = https://github.com/JonathanPerry651/legend
+[submodule "legend-engine"]
+	path = legend-engine
+	url = https://github.com/JonathanPerry651/legend-engine
+[submodule "legend-pure"]
+	path = legend-pure
+	url = https://github.com/JonathanPerry651/legend-pure
+[submodule "legend-sdlc"]
+	path = legend-sdlc
+	url = https://github.com/JonathanPerry651/legend-sdlc
+[submodule "legend-shared"]
+	path = legend-shared
+	url = https://github.com/JonathanPerry651/legend-shared
+[submodule "legend-studio"]
+	path = legend-studio
+	url = https://github.com/JonathanPerry651/legend-studio
