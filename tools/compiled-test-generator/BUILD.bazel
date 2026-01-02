@@ -1,0 +1,10 @@
+
+java_binary(
+    name = "CompiledTestGenerator",
+    srcs = glob(["src/main/java/**/*.java"]),
+    main_class = "org.finos.legend.pure.tools.CompiledTestGenerator",
+    deps = [
+        "@legend_maven//:junit_junit",
+    ],
+    visibility = ["//visibility:public"],
+)

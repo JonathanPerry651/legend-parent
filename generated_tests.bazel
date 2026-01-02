@@ -1,0 +1,972 @@
+java_test(
+    name = "TestCompileAnd",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/_boolean/TestCompileAnd.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base._boolean.TestCompileAnd",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompileNot",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/_boolean/TestCompileNot.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base._boolean.TestCompileNot",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompileOr",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/_boolean/TestCompileOr.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base._boolean.TestCompileOr",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompilePrecedence",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/_boolean/TestCompilePrecedence.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base._boolean.TestCompilePrecedence",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssert",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssert.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssert",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertContains",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertContains.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertContains",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertEmpty",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertEmpty.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertEmpty",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertEqWithinTolerance",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertEqWithinTolerance.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertEqWithinTolerance",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertEquals",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertEquals.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertEquals",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertFalse",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertFalse.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertFalse",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertInstanceOf",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertInstanceOf.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertInstanceOf",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertNotContains",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertNotContains.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertNotContains",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertNotEmpty",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertNotEmpty.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertNotEmpty",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertNotEquals",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertNotEquals.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertNotEquals",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertNotSize",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertNotSize.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertNotSize",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertSameElements",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertSameElements.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertSameElements",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAssertSize",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestAssertSize.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestAssertSize",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestFail",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/asserts/TestFail.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.asserts.TestFail",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAtCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestAtCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestAtCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledFirst",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestCompiledFirst.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestCompiledFirst",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledGetAll",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestCompiledGetAll.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestCompiledGetAll",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledInit",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestCompiledInit.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestCompiledInit",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledIsEmpty",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestCompiledIsEmpty.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestCompiledIsEmpty",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledLast",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestCompiledLast.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestCompiledLast",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledReverse",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestCompiledReverse.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestCompiledReverse",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledTail",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestCompiledTail.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestCompiledTail",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestMapCollection",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestMapCollection.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestMapCollection",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestMapCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestMapCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestMapCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestMapZeroOneCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestMapZeroOneCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestMapZeroOneCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestRangeCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestRangeCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestRangeCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestSlice",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/collection/TestSlice.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.collection.TestSlice",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDayOfMonth",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/date/TestDayOfMonth.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.date.TestDayOfMonth",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestHour",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/date/TestHour.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.date.TestHour",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestMinute",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/date/TestMinute.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.date.TestMinute",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestNewDate",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/date/TestNewDate.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.date.TestNewDate",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestSecond",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/date/TestSecond.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.date.TestSecond",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPrintCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/io/TestPrintCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.io.TestPrintCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCast",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestCast.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestCast",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompareCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestCompareCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestCompareCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCopyCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestCopyCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestCopyCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDynamicNew",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestDynamicNew.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestDynamicNew",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDynamicNewConstraints",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestDynamicNewConstraints.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestDynamicNewConstraints",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDynamicNewConstraintsHandler",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestDynamicNewConstraintsHandler.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestDynamicNewConstraintsHandler",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDynamicNewGetterOverride",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestDynamicNewGetterOverride.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestDynamicNewGetterOverride",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestEvaluate",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestEvaluate.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestEvaluate",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestEvaluateFunctions",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestEvaluateFunctions.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestEvaluateFunctions",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestFunctionDefinitionModify",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestFunctionDefinitionModify.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestFunctionDefinitionModify",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestIfCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestIfCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestIfCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestLetCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestLetCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestLetCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestMatch",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestMatch.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestMatch",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestNewCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestNewCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestNewCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestRawEvalPropertyCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/lang/TestRawEvalPropertyCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.lang.TestRawEvalPropertyCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestArcCosine",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestArcCosine.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestArcCosine",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestArcSine",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestArcSine.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestArcSine",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledCeiling",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestCompiledCeiling.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestCompiledCeiling",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledDivide",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestCompiledDivide.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestCompiledDivide",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledFloor",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestCompiledFloor.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestCompiledFloor",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledPrecedence",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestCompiledPrecedence.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestCompiledPrecedence",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledRound",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestCompiledRound.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestCompiledRound",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompiledTimes",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestCompiledTimes.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestCompiledTimes",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPowCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestPowCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestPowCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestRem",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestRem.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestRem",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestSqrt",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/math/TestSqrt.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.math.TestSqrt",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCanReactivateDynamically",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/meta/TestCanReactivateDynamically.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.meta.TestCanReactivateDynamically",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestId",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/meta/TestId.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.meta.TestId",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestInstanceOf",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/meta/TestInstanceOf.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.meta.TestInstanceOf",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPathToElement",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/meta/TestPathToElement.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.meta.TestPathToElement",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestReactivate",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/meta/TestReactivate.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.meta.TestReactivate",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestGetUpperBound",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/multiplicity/TestGetUpperBound.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.multiplicity.TestGetUpperBound",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestToMultiplicity",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/multiplicity/TestToMultiplicity.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.multiplicity.TestToMultiplicity",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestToOne",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/multiplicity/TestToOne.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.multiplicity.TestToOne",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestToOneMany",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/multiplicity/TestToOneMany.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.multiplicity.TestToOneMany",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestColSpecType",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/relation/TestColSpecType.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.relation.TestColSpecType",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestFormat",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestFormat.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestFormat",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestIndexOfCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestIndexOfCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestIndexOfCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestLengthCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestLengthCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestLengthCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestParseBooleanCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestParseBooleanCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestParseBooleanCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestParseDateCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestParseDateCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestParseDateCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestParseFloatCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestParseFloatCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestParseFloatCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestParseIntegerCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestParseIntegerCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestParseIntegerCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestSubstringCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestSubstringCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestSubstringCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestToStringCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestToStringCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestToStringCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestTrimCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/generation/processors/support/function/base/string/TestTrimCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.generation.processors.support.function.base.string.TestTrimCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestIncrementalCompilationCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/TestIncrementalCompilationCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.TestIncrementalCompilationCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestMultipleRepoIncrementalCompilationCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/TestMultipleRepoIncrementalCompilationCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.TestMultipleRepoIncrementalCompilationCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeEnumerationCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/TestPureRuntimeEnumerationCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.TestPureRuntimeEnumerationCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestQualifiedPropertyInheritance",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/TestQualifiedPropertyInheritance.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.TestQualifiedPropertyInheritance",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeClass_AsFunctionReturnCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_class/TestPureRuntimeClass_AsFunctionReturnCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._class.TestPureRuntimeClass_AsFunctionReturnCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeClass_AsPointerCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_class/TestPureRuntimeClass_AsPointerCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._class.TestPureRuntimeClass_AsPointerCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeClass_ConstraintsCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_class/TestPureRuntimeClass_ConstraintsCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._class.TestPureRuntimeClass_ConstraintsCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeClass_FunctionExpressionParamCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_class/TestPureRuntimeClass_FunctionExpressionParamCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._class.TestPureRuntimeClass_FunctionExpressionParamCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeClass_FunctionParamTypeCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_class/TestPureRuntimeClass_FunctionParamTypeCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._class.TestPureRuntimeClass_FunctionParamTypeCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeClass_InCastCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_class/TestPureRuntimeClass_InCastCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._class.TestPureRuntimeClass_InCastCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeClass_InCopyCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_class/TestPureRuntimeClass_InCopyCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._class.TestPureRuntimeClass_InCopyCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeClass_InGeneralizationCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_class/TestPureRuntimeClass_InGeneralizationCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._class.TestPureRuntimeClass_InGeneralizationCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeClass_Property_UsedInAutoCollectCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_class/TestPureRuntimeClass_Property_UsedInAutoCollectCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._class.TestPureRuntimeClass_Property_UsedInAutoCollectCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimePackageCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/_package/TestPureRuntimePackageCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental._package.TestPureRuntimePackageCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeAssociationCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/association/TestPureRuntimeAssociationCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.association.TestPureRuntimeAssociationCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeAssociation_AsPointerCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/association/TestPureRuntimeAssociation_AsPointerCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.association.TestPureRuntimeAssociation_AsPointerCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeAssociation_UsePropertyCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/association/TestPureRuntimeAssociation_UsePropertyCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.association.TestPureRuntimeAssociation_UsePropertyCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeFunction_AllCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/function/TestPureRuntimeFunction_AllCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.function.TestPureRuntimeFunction_AllCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeFunction_ConstraintCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/function/TestPureRuntimeFunction_ConstraintCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.function.TestPureRuntimeFunction_ConstraintCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeFunction_LambdaCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/function/TestPureRuntimeFunction_LambdaCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.function.TestPureRuntimeFunction_LambdaCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeImportCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/imports/TestPureRuntimeImportCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.imports.TestPureRuntimeImportCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeMilestoningCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/milestoning/TestPureRuntimeMilestoningCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.milestoning.TestPureRuntimeMilestoningCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeStereotypeCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/profile/TestPureRuntimeStereotypeCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.profile.TestPureRuntimeStereotypeCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureRuntimeTaggedValueCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/incremental/profile/TestPureRuntimeTaggedValueCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.incremental.profile.TestPureRuntimeTaggedValueCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPCRReport",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/TestPCRReport.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.TestPCRReport",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestAdvancedOpenVariableCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/features/TestAdvancedOpenVariableCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.features.TestAdvancedOpenVariableCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestConstraintsCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/features/TestConstraintsCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.features.TestConstraintsCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDefaultValueCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/features/TestDefaultValueCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.features.TestDefaultValueCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDispatchQualifiedPropertiesCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/features/TestDispatchQualifiedPropertiesCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.features.TestDispatchQualifiedPropertiesCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestEnumerationCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/features/TestEnumerationCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.features.TestEnumerationCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestMeasureCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/features/TestMeasureCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.features.TestMeasureCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCoreFunctions",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/functions/TestCoreFunctions.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.functions.TestCoreFunctions",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestFunction_TesterHelper_Compiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/functions/TestFunction_TesterHelper_Compiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.functions.TestFunction_TesterHelper_Compiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "Test_Compiled_EssentialFunctions_PCT",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/functions/Test_Compiled_EssentialFunctions_PCT.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.functions.Test_Compiled_EssentialFunctions_PCT",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "Test_Compiled_GrammarFunctions_PCT",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/functions/Test_Compiled_GrammarFunctions_PCT.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.functions.Test_Compiled_GrammarFunctions_PCT",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestEvaluateTypeManagementCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/functions/moveToPCT/TestEvaluateTypeManagementCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.functions.moveToPCT.TestEvaluateTypeManagementCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestNewInferenceCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/pct/functions/moveToPCT/TestNewInferenceCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.pct.functions.moveToPCT.TestNewInferenceCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCompilationError",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/TestCompilationError.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.TestCompilationError",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDspClassloading",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/TestDspClassloading.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.TestDspClassloading",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestGenerationWithPureStacktraceIncluded",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/TestGenerationWithPureStacktraceIncluded.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.TestGenerationWithPureStacktraceIncluded",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestIdBuilder",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/TestIdBuilder.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.TestIdBuilder",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestJavaPrimitiveTypeMapping",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/TestJavaPrimitiveTypeMapping.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.TestJavaPrimitiveTypeMapping",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestJavaStandaloneLibraryGenerator",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/TestJavaStandaloneLibraryGenerator.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.TestJavaStandaloneLibraryGenerator",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestPureCacheMap",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/TestPureCacheMap.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.TestPureCacheMap",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestMemoryFileManager",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/compiler/TestMemoryFileManager.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.compiler.TestMemoryFileManager",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestStringJavaSource",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/compiler/TestStringJavaSource.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.compiler.TestStringJavaSource",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestJavaPackageAndImportBuilder",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/generation/TestJavaPackageAndImportBuilder.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.generation.TestJavaPackageAndImportBuilder",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCoreExtensionCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/generation/processors/support/TestCoreExtensionCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.generation.processors.support.TestCoreExtensionCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestTypeProcessor",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/generation/processors/type/TestTypeProcessor.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.generation.processors.type.TestTypeProcessor",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestMultiplicityArgument",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/TestMultiplicityArgument.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.TestMultiplicityArgument",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestClassPropertyNames",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/_class/TestClassPropertyNames.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling._class.TestClassPropertyNames",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestClassWithParamSuperType",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/_class/TestClassWithParamSuperType.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling._class.TestClassWithParamSuperType",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestGeneralizationCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/_class/TestGeneralizationCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling._class.TestGeneralizationCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestQualifiedProperty",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/_class/TestQualifiedProperty.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling._class.TestQualifiedProperty",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestCallWithParameter",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/function/TestCallWithParameter.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.function.TestCallWithParameter",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestFunctionEval",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/function/TestFunctionEval.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.function.TestFunctionEval",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestFunctionProcessor",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/function/TestFunctionProcessor.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.function.TestFunctionProcessor",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestFunctionReturnMultiplicity",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/function/TestFunctionReturnMultiplicity.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.function.TestFunctionReturnMultiplicity",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestLambdaAsInstanceValue",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/function/TestLambdaAsInstanceValue.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.function.TestLambdaAsInstanceValue",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestLambdasWithTypeParameters",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/function/TestLambdasWithTypeParameters.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.function.TestLambdasWithTypeParameters",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestReturnCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/function/TestReturnCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.function.TestReturnCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestClassInInstanceValue",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/valueSpec/TestClassInInstanceValue.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.valueSpec.TestClassInInstanceValue",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestNilTypeCompiled",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/modeling/valueSpec/TestNilTypeCompiled.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.modeling.valueSpec.TestNilTypeCompiled",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestGraphIsSerialized",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/TestGraphIsSerialized.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.TestGraphIsSerialized",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestLazyImplClassifiers",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/TestLazyImplClassifiers.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.TestLazyImplClassifiers",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestBinaryGraphSerializationTypes",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestBinaryGraphSerializationTypes.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestBinaryGraphSerializationTypes",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestClassLoaderDistributedBinaryGraphSerialization",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestClassLoaderDistributedBinaryGraphSerialization.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestClassLoaderDistributedBinaryGraphSerialization",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDirectoryClassLoaderDistributedBinaryGraphSerialization",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestDirectoryClassLoaderDistributedBinaryGraphSerialization.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestDirectoryClassLoaderDistributedBinaryGraphSerialization",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDirectoryDistributedBinaryGraphSerialization",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestDirectoryDistributedBinaryGraphSerialization.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestDirectoryDistributedBinaryGraphSerialization",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDistributedBinaryGraphSerialization",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestDistributedBinaryGraphSerialization.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestDistributedBinaryGraphSerialization",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDistributedMetadataHelper",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestDistributedMetadataHelper.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestDistributedMetadataHelper",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDistributedMetadataSpecification",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestDistributedMetadataSpecification.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestDistributedMetadataSpecification",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestDistributedStringCaching",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestDistributedStringCaching.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestDistributedStringCaching",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestInMemoryDistributedBinaryGraphSerialization",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestInMemoryDistributedBinaryGraphSerialization.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestInMemoryDistributedBinaryGraphSerialization",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestJarDistributedBinaryGraphSerialization",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestJarDistributedBinaryGraphSerialization.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestJarDistributedBinaryGraphSerialization",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestSimpleStringCaching",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestSimpleStringCaching.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestSimpleStringCaching",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestStringCacheOrIndex",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestStringCacheOrIndex.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestStringCacheOrIndex",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestStringCaching",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/binary/TestStringCaching.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.binary.TestStringCaching",
+    deps = [":compiled-engine-test-utils"],
+)
+java_test(
+    name = "TestObj",
+    srcs = ["src/test/java/org/finos/legend/pure/runtime/java/compiled/runtime/serialization/model/TestObj.java"],
+    test_class = "org.finos.legend.pure.runtime.java.compiled.runtime.serialization.model.TestObj",
+    deps = [":compiled-engine-test-utils"],
+)

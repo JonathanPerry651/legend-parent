@@ -5,47 +5,69 @@ def _pure_model_generation_impl(ctx):
     # Must end with slash for M3CoreInstanceGenerator concatenation logic!
     output_dir = output_jar.dirname + "/pure_out_" + ctx.label.name + "/"
     
-    tool_path = ctx.executable.tool.path
+    tool = ctx.executable.tool
     
-    # We need to construct the command line.
-    # Run the tool, then zip.
+    # Use args for robust argument handling
+    args = ctx.actions.args()
+    args.add(output_dir)                    # $1
+    args.add(ctx.attr.model_name)           # $2
+    args.add(ctx.attr.source_path)          # $3
     
+    start_with = ctx.attr.file_name_startswith if ctx.attr.file_name_startswith else ""
+    args.add(start_with)                    # $4
+    
+    args.add(output_jar)                    # $5 (Using file object automatically handles path)
+
     command = """
         set -e
-        mkdir -p {output_dir}
+        OUTPUT_DIR=$1
+        MODEL_NAME=$2
+        SOURCE_PATH=$3
+        START_WITH=$4
+        OUTPUT_JAR=$5
+        
+        mkdir -p "$OUTPUT_DIR"
         
         # Capture absolute path of output jar
-        OUTPUT_JAR=$(pwd)/{output_jar_path}
+        # OUTPUT_JAR path from args is relative to execroot. 
+        # $(pwd) gives execroot.
+        OUTPUT_JAR_ABS="$(pwd)/$OUTPUT_JAR"
         
-        if ! {tool} {output_dir} {model_name} {source_path} {start_with} > {output_dir}/gen.log 2>&1; then
+        # Construct tool args
+        # The tool expects space-separated arguments.
+        # We append START_WITH only if it is not empty.
+        
+        if [ -n "$START_WITH" ]; then
+             {tool_path} "$OUTPUT_DIR" "$MODEL_NAME" "$SOURCE_PATH" "$START_WITH" > "$OUTPUT_DIR/gen.log" 2>&1
+        else
+             {tool_path} "$OUTPUT_DIR" "$MODEL_NAME" "$SOURCE_PATH" > "$OUTPUT_DIR/gen.log" 2>&1
+        fi
+        
+        GENERATOR_EXIT_CODE=$?
+        
+        if [ $GENERATOR_EXIT_CODE -ne 0 ]; then
             echo "Generator Failed. Output:"
-            cat {output_dir}/gen.log
+            cat "$OUTPUT_DIR/gen.log"
             exit 1
         fi
         
         echo "Generator Output:"
-        cat {output_dir}/gen.log
+        cat "$OUTPUT_DIR/gen.log"
         
         echo "Listing generated files:"
-        find {output_dir} -name "*.java"
+        find "$OUTPUT_DIR" -name "*.java"
         
-        # exit 1 
-        
-        cd {output_dir}
-        zip -q -r "$OUTPUT_JAR" .
+        cd "$OUTPUT_DIR"
+        zip -q -r "$OUTPUT_JAR_ABS" .
     """.format(
-        output_dir = output_dir,
-        tool = tool_path,
-        model_name = ctx.attr.model_name,
-        source_path = ctx.attr.source_path,
-        start_with = ctx.attr.file_name_startswith if ctx.attr.file_name_startswith else "",
-        output_jar_path = output_jar.path
+        tool_path = tool.path
     )
     
     ctx.actions.run_shell(
         outputs = [output_jar],
         inputs = ctx.files.srcs,
-        tools = [ctx.executable.tool],
+        tools = [tool],
+        arguments = [args],
         command = command,
         progress_message = "Generating Pure model %s" % ctx.label.name,
     )
