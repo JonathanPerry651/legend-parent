@@ -1,0 +1,10 @@
+load(":zip_tree_test.bzl", "zip_tree_test_rule", "zip_empty_test_rule")
+
+zip_tree_test_rule(name = "test_zip")
+zip_empty_test_rule(name = "test_empty_zip")
+
+sh_test(
+    name = "zip_content_test",
+    srcs = ["zip_content_test.sh"],
+    data = [":test_zip", ":test_empty_zip"],
+)

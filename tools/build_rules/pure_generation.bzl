@@ -1,75 +1,34 @@
+load("//tools:zip_tree_artifacts.bzl", "zip_tree_artifacts")
+load("@rules_java//java:defs.bzl", "java_common")
+
 def _pure_model_generation_impl(ctx):
     output_jar = ctx.actions.declare_file(ctx.label.name + ".srcjar")
-    
-    # Create a directory for outputs
-    # Must end with slash for M3CoreInstanceGenerator concatenation logic!
-    output_dir = output_jar.dirname + "/pure_out_" + ctx.label.name + "/"
+    gen_dir = ctx.actions.declare_directory(ctx.label.name + "_gen")
     
     tool = ctx.executable.tool
     
-    # Use args for robust argument handling
-    args = ctx.actions.args()
-    args.add(output_dir)                    # $1
-    args.add(ctx.attr.model_name)           # $2
-    args.add(ctx.attr.source_path)          # $3
+    gen_args = ctx.actions.args()
+    gen_args.add(gen_dir.path + "/")
+    gen_args.add(ctx.attr.model_name)
+    gen_args.add(ctx.attr.source_path)
     
     start_with = ctx.attr.file_name_startswith if ctx.attr.file_name_startswith else ""
-    args.add(start_with)                    # $4
+    if start_with:
+        gen_args.add(start_with)
     
-    args.add(output_jar)                    # $5 (Using file object automatically handles path)
-
-    command = """
-        set -e
-        OUTPUT_DIR=$1
-        MODEL_NAME=$2
-        SOURCE_PATH=$3
-        START_WITH=$4
-        OUTPUT_JAR=$5
-        
-        mkdir -p "$OUTPUT_DIR"
-        
-        # Capture absolute path of output jar
-        # OUTPUT_JAR path from args is relative to execroot. 
-        # $(pwd) gives execroot.
-        OUTPUT_JAR_ABS="$(pwd)/$OUTPUT_JAR"
-        
-        # Construct tool args
-        # The tool expects space-separated arguments.
-        # We append START_WITH only if it is not empty.
-        
-        if [ -n "$START_WITH" ]; then
-             {tool_path} "$OUTPUT_DIR" "$MODEL_NAME" "$SOURCE_PATH" "$START_WITH" > "$OUTPUT_DIR/gen.log" 2>&1
-        else
-             {tool_path} "$OUTPUT_DIR" "$MODEL_NAME" "$SOURCE_PATH" > "$OUTPUT_DIR/gen.log" 2>&1
-        fi
-        
-        GENERATOR_EXIT_CODE=$?
-        
-        if [ $GENERATOR_EXIT_CODE -ne 0 ]; then
-            echo "Generator Failed. Output:"
-            cat "$OUTPUT_DIR/gen.log"
-            exit 1
-        fi
-        
-        echo "Generator Output:"
-        cat "$OUTPUT_DIR/gen.log"
-        
-        echo "Listing generated files:"
-        find "$OUTPUT_DIR" -name "*.java"
-        
-        cd "$OUTPUT_DIR"
-        zip -q -r "$OUTPUT_JAR_ABS" .
-    """.format(
-        tool_path = tool.path
-    )
-    
-    ctx.actions.run_shell(
-        outputs = [output_jar],
+    ctx.actions.run(
+        outputs = [gen_dir],
         inputs = ctx.files.srcs,
-        tools = [tool],
-        arguments = [args],
-        command = command,
-        progress_message = "Generating Pure model %s" % ctx.label.name,
+        executable = tool,
+        arguments = [gen_args],
+        mnemonic = "PureModelGenRun",
+    )
+
+    zip_tree_artifacts(
+        ctx,
+        output = output_jar,
+        inputs = [gen_dir],
+        java_runtime_target = ctx.attr._jdk,
     )
     
     return [DefaultInfo(files = depset([output_jar]))]
@@ -86,5 +45,51 @@ pure_model_generation = rule(
             executable = True,
             cfg = "exec",
         ),
+        "_jdk": attr.label(
+            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+            providers = [java_common.JavaRuntimeInfo],
+        ),
     },
+)
+
+def _pure_protocol_generation_impl(ctx):
+    out_srcjar = ctx.outputs.srcjar
+    src = ctx.file.src
+    tool = ctx.executable.tool
+    
+    gen_dir = ctx.actions.declare_directory(ctx.label.name + "_gen")
+    
+    # Args: input_file output_dir
+    args = ctx.actions.args()
+    args.add(src.path)
+    args.add(gen_dir.path)
+    
+    ctx.actions.run(
+        outputs = [gen_dir],
+        inputs = [src],
+        executable = tool,
+        arguments = [args],
+        mnemonic = "PureProtocolGen",
+    )
+    
+    zip_tree_artifacts(
+        ctx,
+        output = out_srcjar,
+        inputs = [gen_dir],
+        java_runtime_target = ctx.attr._jdk,
+    )
+    
+    return [DefaultInfo(files = depset([out_srcjar]))]
+
+pure_protocol_generation = rule(
+    implementation = _pure_protocol_generation_impl,
+    attrs = {
+        "src": attr.label(mandatory = True, allow_single_file = True),
+        "tool": attr.label(mandatory = True, executable = True, cfg = "exec"),
+        "_jdk": attr.label(
+            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+            providers = [java_common.JavaRuntimeInfo],
+        ),
+    },
+    outputs = {"srcjar": "%{name}.srcjar"},
 )

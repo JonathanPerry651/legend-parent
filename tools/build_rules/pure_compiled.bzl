@@ -14,6 +14,9 @@ This rule generates a srcjar from Pure sources. Use with java_library to compile
     )
 """
 
+load("//tools:zip_tree_artifacts.bzl", "zip_tree_artifacts")
+load("@rules_java//java:defs.bzl", "java_common")
+
 def _pure_sources_impl(ctx):
     # Declare output files
     srcjar = ctx.actions.declare_file(ctx.label.name + ".srcjar")
@@ -36,47 +39,57 @@ def _pure_sources_impl(ctx):
         inputs = [], 
         executable = ctx.executable.generator,
         arguments = [args],
+        execution_requirements = {"supports-path-mapping": "1"},
         progress_message = "Generating Pure sources for repository '%s'" % ctx.attr.repository,
     )
     
-    # Action 2: Package sources into srcjar using jar from Java toolchain via run_shell
-    # We use run_shell to handle potentially missing directories gracefully by creating them
-    java_toolchain = ctx.attr._java_toolchain[java_common.JavaToolchainInfo]
-    jar_tool = java_toolchain.java_runtime.java_executable_exec_path.replace("/bin/java", "/bin/jar")
-    
-    # Paths
-    gen_sources = "{}/generated-sources".format(gen_dir.path)
-    gen_test_sources = "{}/generated-test-sources".format(gen_dir.path)
+    # Action 2: Merge for zipping (and handle exclusions)
+    merged_dir = ctx.actions.declare_directory(ctx.label.name + "_merged")
     
     # Exclusions handling
-    exclusions_str = ""
+    rm_cmds = []
     for excl in ctx.attr.exclusions:
-         exclusions_str += "rm -f {gen_sources}/{excl} {gen_test_sources}/{excl}\n".format(
-             gen_sources = gen_sources,
-             gen_test_sources = gen_test_sources,
+         # Exclusions are relative to root, e.g. "org/finos/..."
+         # We use $dest_dir which is passed as an argument to support path mapping
+         rm_cmds.append("rm -rf \"$dest_dir\"/{excl}".format(
              excl = excl
-         )
+         ))
+    exclusions_script = "\n".join(rm_cmds)
 
-    # We construct a shell command that ensures directories exist, applies exclusions, and then jars them
-    # Note: We use relative paths for -C to work correctly
-    command = """
-        mkdir -p {gen_sources} {gen_test_sources}
-        {exclusions}
-        {jar} cf {srcjar} -C {gen_sources} . -C {gen_test_sources} .
-    """.format(
-        gen_sources = gen_sources,
-        gen_test_sources = gen_test_sources,
-        exclusions = exclusions_str,
-        jar = jar_tool,
-        srcjar = srcjar.path
-    )
+    merge_args = ctx.actions.args()
+    merge_args.add_all([gen_dir], expand_directories = False)
+    merge_args.add_all([merged_dir], expand_directories = False)
 
     ctx.actions.run_shell(
-        outputs = [srcjar],
-        inputs = [gen_dir] + java_toolchain.java_runtime.files.to_list(),
-        command = command,
-        mnemonic = "PackagePureSrcjar",
-        progress_message = "Packaging Pure sources for %s" % ctx.label.name,
+        inputs = [gen_dir],
+        outputs = [merged_dir],
+        arguments = [merge_args],
+        command = """
+            set -e
+            src_dir="$1"
+            dest_dir="$2"
+            
+            # Merge generated sources
+            if [ -d "$src_dir/generated-sources" ]; then
+                cp -r "$src_dir/generated-sources"/. "$dest_dir/"
+            fi
+            if [ -d "$src_dir/generated-test-sources" ]; then
+                cp -r "$src_dir/generated-test-sources"/. "$dest_dir/"
+            fi
+            
+            # Exclusions
+            {exclusions}
+        """.format(exclusions = exclusions_script),
+        mnemonic = "PureSourcesMerge",
+        execution_requirements = {"supports-path-mapping": "1"},
+    )
+    
+    # Action 3: Package sources into srcjar using zip_tree_artifacts
+    zip_tree_artifacts(
+        ctx,
+        output = srcjar,
+        inputs = [merged_dir],
+        java_runtime_target = ctx.attr._jdk,
     )
     
     return [DefaultInfo(files = depset([srcjar]))]
@@ -94,9 +107,9 @@ pure_sources = rule(
             cfg = "exec",
         ),
         "exclusions": attr.string_list(default = [], doc = "Files to exclude from the generated srcjar, relative to generated-sources root"),
-        "_java_toolchain": attr.label(
-            default = Label("@bazel_tools//tools/jdk:current_java_toolchain"),
+        "_jdk": attr.label(
+            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+            providers = [java_common.JavaRuntimeInfo],
         ),
     },
-    toolchains = ["@bazel_tools//tools/jdk:toolchain_type"],
 )
