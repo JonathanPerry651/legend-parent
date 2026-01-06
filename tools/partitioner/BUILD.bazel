@@ -1,0 +1,9 @@
+java_binary(
+    name = "JavaSourcePartitioner",
+    srcs = ["src/main/java/org/finos/legend/tools/partitioner/JavaSourcePartitioner.java"],
+    main_class = "org.finos.legend.tools.partitioner.JavaSourcePartitioner",
+    visibility = ["//visibility:public"],
+    deps = [
+        # Add dependencies here
+    ],
+)

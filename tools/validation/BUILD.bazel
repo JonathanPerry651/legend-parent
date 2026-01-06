@@ -1,0 +1,8 @@
+package(default_visibility = ["//visibility:public"])
+load("@rules_java//java:defs.bzl", "java_binary")
+
+java_binary(
+    name = "ImportValidator",
+    srcs = ["src/main/java/org/finos/legend/tools/validation/ImportValidator.java"],
+    main_class = "org.finos.legend.tools.validation.ImportValidator",
+)
