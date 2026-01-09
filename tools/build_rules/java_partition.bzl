@@ -38,17 +38,17 @@ def _partitioned_java_library_impl(ctx):
     )
 
     # 3. Layered Compilation Graph
-    layer_provider_lists = [] 
+    all_infos = []
+    accumulated_layer_infos = []
     
     # Initial deps (Layer -1)
-    current_deps = [d[JavaInfo] for d in ctx.attr.deps]
-    all_infos = []
+    base_deps = [d[JavaInfo] for d in ctx.attr.deps]
 
     for l in range(layers):
         current_layer_infos = []
         
-        # Include deps from previous layer
-        layer_deps = current_deps + (layer_provider_lists[-1] if len(layer_provider_lists) > 0 else [])
+        # Include all shards from all previous layers
+        layer_deps = base_deps + accumulated_layer_infos
 
         for s in range(shards):
             shard_jar = shard_outputs_grid[(l, s)]
@@ -69,7 +69,7 @@ def _partitioned_java_library_impl(ctx):
             current_layer_infos.append(compilation_provider)
             all_infos.append(compilation_provider)
         
-        layer_provider_lists.append(current_layer_infos)
+        accumulated_layer_infos.extend(current_layer_infos)
     
     # 4. Merge Results
     merged_info = java_common.merge(all_infos)

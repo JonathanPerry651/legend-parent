@@ -139,8 +139,10 @@ public class JavaSourcePartitioner {
 
         private void scanJarStructure() throws IOException {
             System.out.println("Scanning input jar structure...");
-            boolean internalDependenciesFound = false;
-
+            
+            // Pass 1: Discover all classes
+            Map<String, String> fileContents = new HashMap<>();
+            
             try (ZipInputStream zis = new ZipInputStream(new FileInputStream(inputSrcJar))) {
                 ZipEntry entry;
                 byte[] buffer = new byte[8192];
@@ -150,25 +152,50 @@ public class JavaSourcePartitioner {
                          System.out.println("Found embedded dependencies.json");
                          String jsonContent = readEntry(zis, buffer);
                          parseDependenciesJson(jsonContent);
-                         internalDependenciesFound = true;
                     } else if (name.endsWith(".java")) {
-                        // Quick scan for package/class declaration
-                        // We assume one main class per file usually, or at least we need to find the matching one.
                         String content = readEntry(zis, buffer);
                         String fqn = extractFqn(content);
                         if (fqn != null) {
                             classToPath.put(fqn, name);
                             allDefinedClasses.add(fqn);
+                            fileContents.put(fqn, content);
                         }
                     }
                 }
             }
             
             if (dependencies.isEmpty()) {
-                throw new IOException("dependencies.json not found (neither external nor embedded).");
+                System.out.println("Warning: dependencies.json not found. Relying solely on physical scan.");
+            }
+
+            // Pass 2: Physical Dependency Scan (Augment Metadata)
+            System.out.println("Performing physical dependency scan on " + fileContents.size() + " classes...");
+            for (Map.Entry<String, String> entry : fileContents.entrySet()) {
+                String fqn = entry.getKey();
+                String content = entry.getValue();
+                Set<String> target = dependencies.computeIfAbsent(fqn, k -> new HashSet<>());
+                discoverDependencies(content, target);
             }
         }
         
+        private void discoverDependencies(String content, Set<String> target) {
+            // Find all potential generated class names
+            // Names usually start with Root_, core_, platform_, diagram_, mapping_, etc. or just CoreGen
+            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("(?:org\\.finos\\.legend\\.pure\\.generated\\.)?([\\w$]+)");
+            java.util.regex.Matcher matcher = pattern.matcher(content);
+            while (matcher.find()) {
+                String potentialName = matcher.group(1);
+                // Try unqualified
+                String fqn = "org.finos.legend.pure.generated." + potentialName;
+                if (allDefinedClasses.contains(fqn)) {
+                    target.add(fqn);
+                } else if (allDefinedClasses.contains(potentialName)) {
+                    // Try as-is (might be fully qualified already if regex caught the whole thing)
+                    target.add(potentialName);
+                }
+            }
+        }
+
         private String extractFqn(String content) {
             // Simple regex extract
             java.util.regex.Matcher pkgMatcher = java.util.regex.Pattern.compile("package\\s+([\\w.]+);").matcher(content);
@@ -258,23 +285,38 @@ public class JavaSourcePartitioner {
                     }
                 }
                 
-                // Assign shard numbers based on union-find roots
-                Map<Integer, Integer> rootToShard = new HashMap<>();
-                int nextShard = 0;
+                // 1. Group SCCs by union-find root and calculate weights
+                Map<Integer, List<Integer>> rootToSccs = new HashMap<>();
+                Map<Integer, Integer> rootWeights = new HashMap<>();
                 for (int sccIdx : sccIndices) {
                     int root = find(parent, sccIdx);
-                    if (!rootToShard.containsKey(root)) {
-                        rootToShard.put(root, nextShard % numShards);
-                        nextShard++;
+                    rootToSccs.computeIfAbsent(root, k -> new ArrayList<>()).add(sccIdx);
+                    rootWeights.put(root, rootWeights.getOrDefault(root, 0) + sccs.get(sccIdx).size());
+                }
+                
+                // 2. Sort roots by weight (descending)
+                List<Integer> roots = new ArrayList<>(rootToSccs.keySet());
+                roots.sort((a, b) -> rootWeights.get(b).compareTo(rootWeights.get(a)));
+                
+                // 3. Assign each root to the shard with the least weight
+                int[] shardWeights = new int[numShards];
+                Map<Integer, Integer> rootToShard = new HashMap<>();
+                
+                for (int root : roots) {
+                    int bestShard = 0;
+                    for (int s = 1; s < numShards; s++) {
+                        if (shardWeights[s] < shardWeights[bestShard]) {
+                            bestShard = s;
+                        }
                     }
+                    rootToShard.put(root, bestShard);
+                    shardWeights[bestShard] += rootWeights.get(root);
                 }
                 
                 // Store assignments
                 for (int sccIdx : sccIndices) {
                     int root = find(parent, sccIdx);
-                    if (layerShardAssignment.get(sccIdx) == null) {
-                        layerShardAssignment.put(sccIdx, new int[]{layer, rootToShard.get(root)});
-                    }
+                    layerShardAssignment.put(sccIdx, new int[]{layer, rootToShard.get(root)});
                 }
             }
 
