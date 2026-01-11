@@ -29,14 +29,37 @@ def _pure_sources_gen_impl(ctx):
         # 1. Setup and Run Generator
         mkdir -p {classes_path} {target_path}
         {tool_path} {repo} {classes_path} {target_path} > {out_path} 2>&1 || (cat {out_path} && exit 1)
+
         
         # 2. Extract Metadata
         mkdir -p {meta_root}
         if [ -d "{classes_path}/metadata" ]; then
             cp -r "{classes_path}/metadata" {meta_root}/
+            
+            # Platform Fixup: Monolithic generation produces un-namespaced metadata.
+            # We need to move it into '{repo}' directory to satisfy modular deserializers.
+            pushd "{meta_root}" > /dev/null
+            
+            # Fixup loop
+            for dir in metadata/*; do
+                dirname=$(basename "$dir")
+                # Do not namespace 'specs', they must remain at the root of metadata/specs/
+                if [ "$dirname" = "specs" ]; then
+                    continue
+                fi
+                
+                if [ -d "$dir" ] && [ ! -d "$dir/{repo}" ]; then
+                     mkdir -p "$dir/{repo}"
+                     find "$dir" -mindepth 1 -maxdepth 1 ! -name {repo} -exec mv {{}} "$dir/{repo}/" \\;
+                fi
+            done
+            
+            popd > /dev/null
         fi
         # Also include PAR files
-        find {classes_path} -maxdepth 1 -name "*.par" -exec cp {{}} {meta_root}/ \\;
+        if [ -d "{classes_path}" ]; then
+            find {classes_path} -maxdepth 1 -name "*.par" -exec cp {{}} {meta_root}/ \\;
+        fi
 
         
         # 3. Merge Sources
@@ -349,13 +372,18 @@ def legend_java_library(
             # Only manual sources or nothing, java_library handles srcs directly
             merge_output = None
 
+    # Prepare dependencies
+    actual_deps = deps
+    if pure_repository and include_metadata:
+        actual_deps = actual_deps + [":" + name + "_metadata"]
+
     if layers > 0 or shards > 0:
         # Partitioned library
         partitioned_java_library(
             name = name,
             src = merge_output if merge_output else ":" + name + "_manual_srcs.srcjar", # Fallback if only manual srcs? 
             # Actually, if only manual srcs, we need to jar them anyway for partitioner
-            deps = deps,
+            deps = actual_deps,
             layers = layers,
             shards = shards,
             javacopts = javacopts,
@@ -371,7 +399,7 @@ def legend_java_library(
              )
     else:
         # Standard java_library
-        actual_deps = deps
+        # Handle validation
         if validate:
             validation_name = name + "_validation"
             java_import_validation(
@@ -379,7 +407,7 @@ def legend_java_library(
                 srcs = srcs + all_srcjars,
                 deps = deps,
             )
-            actual_deps = deps + [":" + validation_name]
+            actual_deps = actual_deps + [":" + validation_name]
 
         native.java_library(
             name = name,
