@@ -24,6 +24,7 @@ Refactor the build system of the Legend platform (`legend-parent` and submodules
 *   **Granularity**:
     *   **Files**: Favor granular `BUILD` files at leaf directories over monolithic root build files.
     *   **Targets**: Split targets into small, cohesive pieces of functionality that are fast to compile and make sense to be included independently. This maximizes parallelism and caching.
+*   **Workspace Hygiene**: All debug files, intermediate lists, and temporary outputs generated during the migration process must be placed in the `debug_artifacts/` directory at the repository root. This directory is git-ignored. **Never** create temporary files within the source modules or root of the repository.
 
 ## 3. Style & Standards
 For detailed coding standards, rule authoring guidelines, and best practices, refer to the **[Bazel Style Guide](bazel_style_guide.md)**.
