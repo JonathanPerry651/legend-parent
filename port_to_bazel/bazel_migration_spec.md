@@ -1,16 +1,29 @@
 # Legend Bazel Migration Specification
 
 ## 1. Objective
-Refactor the build system of the Legend platform (`legend-parent` and submodules) from Maven to Bazel to improve build performance, hermeticity, and reproducibility. The goal is a functionality-equivalent build that leverages Bazel's caching and remote execution capabilities.
+Refactor the build system of the Legend platform (`legend-parent` and submodules) from Maven to Bazel to improve build performance, hermeticity, and reproducibility.
 
-## 2. Core Principles
+**Success Criteria:**
+1.  **Full Coverage**: *All* build and test targets currently existing in the Maven setup *must* be represented in the Bazel port.
+2.  **Clean Execution**: The command `tools/rbazel test //...` *must* run completely clean (Exit Code 0) with no failures or flakes.
+3.  **Parity**: The build must be functionally equivalent to Maven, leveraging Bazel's caching and remote execution.
+4.  **Antigravity Readiness**: The codebase must be comprehensively documented with Markdown. This documentation must cover both the build aspects *and* the underlying functionality of the code itself, ensuring the repository is fully prepared for AI-driven development.
+
+## 2. Baseline & Environment
+*   **Source of Truth**: This work is being conducted on a **fork** of the original Legend repositories, hosted on GitHub.
+*   **Goal**: The eventual goal is to merge these changes back upstream, replacing the Maven build system entirely.
+*   **Current State**: We are currently operating in a hybrid state where the Maven build is the "production" standard (against which we verify parity), while the Bazel build is being developed and stabilized on the fork.
+
+## 3. Core Principles
 *   **Pure Build Port**: Logic changes to Java or Pure code are **STRICTLY FORBIDDEN**. The goal is a functionality-equivalent build.
     *   **Exception**: Changes are permitted *only* if absolutely necessary to fix build-system induced behavior variances (e.g., serialization differences) and must be exhaustively justified.
     *   **Constraint**: The end goal is a full port to Bazel with an **absolute minimum** of Java and Pure changes.
 *   **Maven Parity**: The Bazel build must produce artifacts and test results equivalent to the Maven build. Maven is the source of truth for debugging.
 *   **Continuous Documentation**: As we gain understanding of the system, we must document it in relevant locations (e.g., `README.md` files near critical logic, `INDEX.md` summaries).
 *   **Debt Tracking**: Code or patterns that do not fit the overall Bazel design goals (e.g., non-hermetic practices, massive monolithic dependencies) must be added to `port_to_bazel/todo_list.md` for future refactoring.
-*   **Granularity**: Favor granular `BUILD` files at leaf directories over monolithic root build files. This maximizes parallelism and caching.
+*   **Granularity**:
+    *   **Files**: Favor granular `BUILD` files at leaf directories over monolithic root build files.
+    *   **Targets**: Split targets into small, cohesive pieces of functionality that are fast to compile and make sense to be included independently. This maximizes parallelism and caching.
 
 ## 3. Style & Standards
 For detailed coding standards, rule authoring guidelines, and best practices, refer to the **[Bazel Style Guide](bazel_style_guide.md)**.
@@ -89,6 +102,4 @@ For detailed coding standards, rule authoring guidelines, and best practices, re
         *   `git commit -m "Update legend-pure submodule"`
         *   `git push`
 
-## 6. Ongoing Work
-*   **Stabilize Full Suite**: Running `bazel test //...` to identify and fix flaky tests and remaining hermeticity leaks.
-*   **Performance Tuning**: Optimizing shard sizes and worker counts for remote execution.
+
