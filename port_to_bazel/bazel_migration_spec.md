@@ -8,13 +8,20 @@ Refactor the build system of the Legend platform (`legend-parent` and submodules
     *   **Exception**: Changes are permitted *only* if absolutely necessary to fix build-system induced behavior variances (e.g., serialization differences) and must be exhaustively justified.
     *   **Constraint**: The end goal is a full port to Bazel with an **absolute minimum** of Java and Pure changes.
 *   **Maven Parity**: The Bazel build must produce artifacts and test results equivalent to the Maven build. Maven is the source of truth for debugging.
+*   **Continuous Documentation**: As we gain understanding of the system, we must document it in relevant locations (e.g., `README.md` files near critical logic, `INDEX.md` summaries).
+*   **Debt Tracking**: Code or patterns that do not fit the overall Bazel design goals (e.g., non-hermetic practices, massive monolithic dependencies) must be added to `port_to_bazel/todo_list.md` for future refactoring.
 *   **Granularity**: Favor granular `BUILD` files at leaf directories over monolithic root build files. This maximizes parallelism and caching.
+
+## 3. Style & Standards
+For detailed coding standards, rule authoring guidelines, and best practices, refer to the **[Bazel Style Guide](bazel_style_guide.md)**.
+*   **Key Requirement**: All actions must use path mapping (`$(location ...)`).
+*   **Key Requirement**: Native rules are preferred over custom macros.
 *   **Explicit Sources**: Avoid `glob()` in Java rules. List sources explicitly to ensure strict dependency tracking and cache invalidation.
 *   **Remote Execution**: All builds and tests must be compatible with remote execution (`rbazel`), enforcing strict hermeticity (no reliance on local environment).
 
-## 3. Architecture & Patterns
+## 4. Architecture & Patterns
 
-### 3.1. Target Conventions
+### 4.1. Target Conventions
 *   **Java Targets**: `java_library` and `java_test` targets should be named after the primary class they contain (e.g., `TestCoreFunctions`).
 *   **Test Macros**: Use the `pure_test` macro to reduce boilerplate for standard Java tests. This macro handles common dependencies and configuration.
 *   **Partitioning**: Large compilation targets (like generated Pure code) use metadata-driven partitioning to split the workload into smaller shards, preventing timeouts and OOM errors.
@@ -45,7 +52,16 @@ Refactor the build system of the Legend platform (`legend-parent` and submodules
 **Diagnosis**: Implicit reliance on local file system paths or environment variables.
 **Resolution**: Removed absolute paths in favor of Bazel's `$(location ...)` expansion. Ensured all inputs are declared so they are uploaded to the remote executor.
 
+### 4.5. Deterministic Serialization
+**Issue**: Serialization order of graph node keys was non-deterministic, leading to checksum mismatches in remote caching.
+**Resolution**: Modified `GraphNodeIterable.java` to sort keys before iteration (`node.getKeys().toSortedList().forEach(...)`). This ensures consistent serialization output across different environments.
+
+### 4.6. Other Modifications
+*   **Debug Code**: Temporary debug statements were added to `StringIndex.java` during investigation but have been reverted to maintain strict parity.
+*   **JavaCodeGeneration**: Updated to accept `tool_runfiles` in `run_shell` actions.
+
 ## 5. Migration Workflow
+
 
 ### 5.1. Porting a Module
 1.  **Analyze Maven Config**: Check the `pom.xml` for dependencies, source directories, and plugins.
@@ -62,6 +78,16 @@ Refactor the build system of the Legend platform (`legend-parent` and submodules
 2.  **Add to Maven Registry**: If new, add it to the appropriate `maven_install` rule in `WORKSPACE`.
 3.  **Pin Version**: Run the pinning script (e.g., `REPIN=1 bazel run @unpinned_maven//:pin`) to update the lockfile.
 4.  **Use in BUILD**: Reference it as `@maven//:group_artifact`.
+
+### 5.3. Checkpoints & Version Control
+*   **Frequency**: Commit and push changes at every significant milestone (e.g., successful compilation of a module, fixing a critical bug, passing a test suite).
+*   **Multi-Repo Workflow**: A checkpoint is complete only when both the submodule and parent are synced.
+    1.  **Submodules First**: Commit and push changes inside the submodule (e.g., `cd legend-pure && git commit ... && git push`).
+    2.  **Parent Repo Second**: Update the submodule reference in `legend-parent`.
+        *   `cd legend-parent`
+        *   `git add legend-pure` (to stage the new commit hash)
+        *   `git commit -m "Update legend-pure submodule"`
+        *   `git push`
 
 ## 6. Ongoing Work
 *   **Stabilize Full Suite**: Running `bazel test //...` to identify and fix flaky tests and remaining hermeticity leaks.
