@@ -3,9 +3,14 @@
 This document defines the coding standards and best practices for Bazel `BUILD` and `.bzl` files within the Legend platform. Adherence to these rules is critical for ensuring hermeticity, reproducibility, and remote execution compatibility.
 
 ## 1. Core Philosophy
-*   **Native Rules First**: Always prefer native Bazel rules (`java_library`, `genrule`, `filegroup`) over custom Starlark macros or shell scripts unless absolutely necessary.
+*   **Rule Preference Hierarchy**:
+    1.  **Native Build Rules**: `java_library`, `java_binary`, `filegroup`, etc.
+    2.  **Custom Starlark Rules**: Implementing dedicated rules using native actions (`ctx.actions.declare_file`, `ctx.actions.declare_directory`, `ctx.actions.symlink`).
+    3.  **Symbolic Macros**: Modern Starlark macros.
+    4.  **Legacy Macros**: Traditional Starlark macros.
+    *   **Last Resort**: Shell scripts or `genrule` usage. These should be avoided whenever possible in favor of first-class rule implementations.
 *   **Hermeticity**: Every action must define **all** its inputs and outputs. No reliance on system libraries, absolute paths, or undeclared environment variables.
-*   **Granularity**: Define targets at the most granular level possible (e.g., per-package or per-functional-unit) to maximize caching and parallelism.
+*   **Granularity**: Define targets and `BUILD.bazel` files at the most granular level possible (e.g., per-package or per-functional-unit) to maximize caching and parallelism.
 
 ## 2. Rule Authoring
 ### 2.1. File Arguments over Hardcoded Paths
@@ -13,16 +18,24 @@ This document defines the coding standards and best practices for Bazel `BUILD` 
 *   **Pattern**:
     ```starlark
     # BAD
-    run_shell(command = "python script.py") # Implicitly expects script.py in CWD
+    run_shell(command = "python script.py") # Implicit reliance on system python
 
     # GOOD
     run_shell(
-        inputs = [script, data],
-        command = "python $(location script) $(location data)"
+        tools = ["//tools:my_java_tool"],
+        inputs = [data],
+        # Toolchains should be used for standard tools like 'jar' or 'java'
+        command = "$(location //tools:my_java_tool) $(location data)"
     )
     ```
 
-### 2.2. Path Mapping & Location Expansion
+### 2.2. Toolchains & Hermeticity
+*   **No System Tools**: Do not rely on tools installed on the host OS (e.g., `python`, `bash`, `sed` outside of standard shell usage). This is a Java codebase; unnecessary Python, Perl, or other script dependencies should be avoided.
+*   **Toolchains**: Standard tools (like `jar`, `java`, `javac`) must be resolved via Bazel toolchains.
+    *   *Example*: Use `@bazel_tools//tools/jdk:current_java_runtime` to get the hermetic JDK.
+*   **Declared Dependencies**: Every tool used in an action must be declared in `tools` or `inputs`.
+
+### 2.3. Path Mapping & Location Expansion
 *   **Requirement**: All actions must use Bazel's Path Mapping via `$(location ...)` or `$(locations ...)` expansion.
 *   **Why**: Remote executors may place files in arbitrary locations. `$(location)` ensures the script receives the correct, absolute runtime path to the artifact.
 *   **Implementation**:
