@@ -103,4 +103,9 @@ For detailed coding standards, rule authoring guidelines, and best practices, re
         *   `git commit -m "Update legend-pure submodule"`
         *   `git push`
 
+### 5.4. Validation
+*   **Linting**: Before pushing, ensure all Bazel files are formatted and linted.
+    *   Command: `bazel run @buildifier_prebuilt//:buildifier -- -r -lint=fix .`
+
+
 

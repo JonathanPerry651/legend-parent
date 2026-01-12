@@ -42,7 +42,7 @@ This document defines the coding standards and best practices for Bazel `BUILD` 
     *   In `genrule` `cmd`: use `$(location //my:target)`.
     *   In Starlark `ctx.actions.run`: ensure arguments use `file.path`.
 
-### 2.3. Runfiles
+### 2.4. Runfiles
 *   **Requirement**: Explicitly include runtime dependencies (`runfiles`) in the inputs of any action that executes a tool.
 *   **Pattern**: If a custom rule invokes a `java_binary` tool, it must add `tool_target[DefaultInfo].default_runfiles.files` to the action's inputs.
 
@@ -54,3 +54,8 @@ This document defines the coding standards and best practices for Bazel `BUILD` 
 ## 4. Path Handling in Scripts
 *   **Relative Paths**: Scripts should ideally work with relative paths from the repository root.
 *   **Output Directories**: Scripts must write only to the outputs declared by Bazel. Beware of tools that try to create parent directories or write to read-only locations.
+
+## 5. Migration & Temporary Artifacts
+*   **Ad-Hoc Scripts**: Any shell scripts, Python scripts, or temporary tools generated or used to assist in the migration process (e.g., source list generators, one-off file modifiers) **MUST** be placed in the `debug_artifacts/` directory.
+*   **Repo Pollution**: Do not clutter the `tools/` directory or the source tree with migration scripts. `tools/` is reserved for permanent, committed build tools.
+*   **Artifacts Directory**: Use `<appDataDir>/brain/<conversation-id>` or `debug_artifacts/` for intermediate files.
