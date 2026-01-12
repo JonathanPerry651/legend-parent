@@ -94,7 +94,9 @@ For detailed coding standards, rule authoring guidelines, and best practices, re
 4.  **Use in BUILD**: Reference it as `@maven//:group_artifact`.
 
 ### 5.3. Checkpoints & Version Control
-*   **Frequency**: Commit and push changes at every significant milestone (e.g., successful compilation of a module, fixing a critical bug, passing a test suite).
+*   **Frequency**: Commit and push changes at every significant milestone (e.g., successful compilation of module, fixing a critical bug, passing a test suite).
+*   **Linting**: **MANDATORY**. Before committing, ensure all Bazel files are formatted and linted.
+    *   Command: `bazel run @buildifier_prebuilt//:buildifier -- -r -lint=fix .`
 *   **Multi-Repo Workflow**: A checkpoint is complete only when both the submodule and parent are synced.
     1.  **Submodules First**: Commit and push changes inside the submodule (e.g., `cd legend-pure && git commit ... && git push`).
     2.  **Parent Repo Second**: Update the submodule reference in `legend-parent`.
@@ -104,8 +106,6 @@ For detailed coding standards, rule authoring guidelines, and best practices, re
         *   `git push`
 
 ### 5.4. Validation
-*   **Linting**: Before pushing, ensure all Bazel files are formatted and linted.
-    *   Command: `bazel run @buildifier_prebuilt//:buildifier -- -r -lint=fix .`
 
 
 
