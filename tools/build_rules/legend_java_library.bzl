@@ -1,4 +1,5 @@
 load("//tools:zip_tree_artifacts.bzl", "zip_tree_artifacts")
+load("//tools/build_rules:pure_generation.bzl", "PureModuleInfo")
 load("@rules_java//java:defs.bzl", "java_common")
 load("//tools/build_rules:java_partition.bzl", "partitioned_java_library")
 load("//tools/build_rules:java_validation.bzl", "java_import_validation")
@@ -24,11 +25,38 @@ def _pure_sources_gen_impl(ctx):
          rm_cmds.append("rm -rf \"$dest_dir\"/{excl}".format(excl = excl))
     exclusions_script = "\n".join(rm_cmds)
 
+    # Collect dependencies for classpath
+    # 1. Transitive runtime jars from module deps
+    # 2. Interface jars from PureModuleInfo in module deps
+    
+    classpath_jars = []
+    
+    for dep in ctx.attr.module_deps:
+        if JavaInfo in dep:
+            classpath_jars.append(dep[JavaInfo].transitive_runtime_jars)
+        if PureModuleInfo in dep and dep[PureModuleInfo].interface_jars:
+            classpath_jars.append(dep[PureModuleInfo].interface_jars)
+            
+    all_jars = depset(transitive = classpath_jars)
+    classpath_fs = all_jars.to_list()
+    
+    classpath_args = ""
+    if classpath_fs:
+        # Construct classpath string. Bazel paths are weird, use path
+        classpath_str = ":".join([j.path for j in classpath_fs])
+        classpath_args = "--main_advice_classpath=" + classpath_str
+
     command = """
         set -e
         # 1. Setup and Run Generator
         mkdir -p {classes_path} {target_path}
-        {tool_path} {repo} {classes_path} {target_path} > {out_path} 2>&1 || (cat {out_path} && exit 1)
+        
+        # We need to ensure the wrapper script handles the flag correctly.
+        # But we are running the tool executable directly.
+        # Wait, if 'generator' is a java_binary, ctx.executable.generator is the wrapper script.
+        # The wrapper script accepts --main_advice_classpath.
+        
+        {tool_path} {classpath_args} {repo} {classes_path} {target_path} > {out_path} 2>&1 || (cat {out_path} && exit 1)
 
         
         # 2. Extract Metadata
@@ -80,6 +108,7 @@ def _pure_sources_gen_impl(ctx):
         {exclusions}
     """.format(
         tool_path = ctx.executable.generator.path,
+        classpath_args = classpath_args,
         repo = ctx.attr.repository,
         classes_path = classes_dir.path,
         target_path = target_dir.path,
@@ -92,7 +121,7 @@ def _pure_sources_gen_impl(ctx):
     
     ctx.actions.run_shell(
         outputs = [classes_dir, target_dir, tool_output, meta_root, merged_dir],
-        inputs = ctx.files.srcs,
+        inputs = ctx.files.srcs + classpath_fs,
         tools = [ctx.executable.generator],
         command = command,
         mnemonic = "LegendPureJavaCodeGen",
@@ -115,20 +144,12 @@ def _pure_sources_gen_impl(ctx):
     )
     
     return [DefaultInfo(files = depset([srcjar, metadata_jar]))]
-    
-    zip_tree_artifacts(
-        ctx,
-        output = srcjar,
-        inputs = [merged_dir],
-        java_runtime_target = ctx.attr._jdk,
-    )
-    
-    return [DefaultInfo(files = depset([srcjar, metadata_jar]))]
 
 _pure_sources_gen = rule(
     implementation = _pure_sources_gen_impl,
     attrs = {
         "srcs": attr.label_list(allow_files = True),
+        "module_deps": attr.label_list(providers = [JavaInfo]),
         "repository": attr.string(mandatory = True),
         "generator": attr.label(mandatory = True, executable = True, cfg = "exec"),
         "exclusions": attr.string_list(default = []),
@@ -282,6 +303,36 @@ _srcjar_merger = rule(
     outputs = {"srcjar": "%{name}.srcjar"},
 )
 
+# Bridge rule to export PureModuleInfo
+# Bridge rule to export PureModuleInfo
+def _pure_lib_bridge_impl(ctx):
+    interface_jars = depset([])
+    
+    if ctx.attr.interface_library:
+        interface_lib = ctx.attr.interface_library[JavaInfo]
+        # We can either use the compile jars or runtime jars of the interface lib.
+        # Interfaces are needed for compilation of dependent modules AND for runtime execution of the generator.
+        # Let's use transitive_runtime_jars to be safe and include everything needed.
+        interface_jars = interface_lib.transitive_runtime_jars
+    
+    return [
+        PureModuleInfo(
+            pure_repository = ctx.attr.pure_repository,
+            interface_jars = interface_jars,
+        ),
+        ctx.attr.lib[JavaInfo],
+        ctx.attr.lib[DefaultInfo],
+    ]
+
+_pure_lib_bridge = rule(
+    implementation = _pure_lib_bridge_impl,
+    attrs = {
+        "lib": attr.label(mandatory = True, providers = [JavaInfo]),
+        "pure_repository": attr.string(mandatory = True),
+        "interface_library": attr.label(providers = [JavaInfo], allow_single_file = False),
+    },
+)
+
 # --- PUBLIC MACRO ---
 
 def legend_java_library(
@@ -290,6 +341,10 @@ def legend_java_library(
     deps = [],
     pure_repository = None,
     pure_generator = Label("//legend-pure/legend-pure-runtime/legend-pure-runtime-java-engine-compiled:JavaCodeGeneration"),
+    # pure_generator_lib is no longer strictly needed for wrapper generation but might be implicitly used?
+    # We remove it since we don't generate wrapper anymore.
+    pure_interface_library = None,
+    pure_module_deps = [],
     pure_srcs = [],
     pure_exclusions = [],
     include_metadata = False,
@@ -314,10 +369,21 @@ def legend_java_library(
     # 1. Handle Pure source generation
     if pure_repository:
         gen_p_name = name + "_pure_gen"
+
+        # Combine explicit module deps with the interface library if present
+        gen_deps = list(pure_module_deps)
+        if pure_interface_library:
+            gen_deps.append(pure_interface_library)
+        
+        # Deduplicate
+        gen_deps = depset(gen_deps).to_list()
+
+        # Pass module deps directly to _pure_sources_gen for classpath construction
         _pure_sources_gen(
             name = gen_p_name,
             repository = pure_repository,
             generator = pure_generator,
+            module_deps = gen_deps,
             exclusions = pure_exclusions,
             srcs = pure_srcs,
             include_metadata = include_metadata,
@@ -374,20 +440,30 @@ def legend_java_library(
 
     # Prepare dependencies
     actual_deps = deps
-    if pure_repository and include_metadata:
-        actual_deps = actual_deps + [":" + name + "_metadata"]
+    if pure_repository:
+         if include_metadata:
+            actual_deps = actual_deps + [":" + name + "_metadata"]
+         if pure_module_deps:
+            actual_deps = actual_deps + pure_module_deps
+
+    # Deduplicate deps
+    actual_deps = depset(actual_deps).to_list()
+
+    # Handle wrapping if pure_repository is set
+    lib_name = name
+    if pure_repository:
+        lib_name = name + "_internal"
 
     if layers > 0 or shards > 0:
         # Partitioned library
         partitioned_java_library(
-            name = name,
-            src = merge_output if merge_output else ":" + name + "_manual_srcs.srcjar", # Fallback if only manual srcs? 
-            # Actually, if only manual srcs, we need to jar them anyway for partitioner
+            name = lib_name,
+            src = merge_output if merge_output else ":" + name + "_manual_srcs.srcjar", 
             deps = actual_deps,
             layers = layers,
             shards = shards,
             javacopts = javacopts,
-            visibility = visibility,
+            visibility = visibility if not pure_repository else ["//visibility:private"],
             **kwargs
         )
         if not merge_output:
@@ -410,10 +486,20 @@ def legend_java_library(
             actual_deps = actual_deps + [":" + validation_name]
 
         native.java_library(
-            name = name,
+            name = lib_name,
             srcs = (srcs + all_srcjars) if not merge_output else [merge_output],
             deps = actual_deps,
             javacopts = javacopts,
-            visibility = visibility,
+            visibility = visibility if not pure_repository else ["//visibility:private"],
             **kwargs
+        )
+
+    if pure_repository:
+        _pure_lib_bridge(
+            name = name,
+            lib = ":" + lib_name,
+            pure_repository = pure_repository,
+            interface_library = pure_interface_library,
+            visibility = visibility,
+            tags = kwargs.get("tags"),
         )

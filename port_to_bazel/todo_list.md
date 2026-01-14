@@ -17,6 +17,11 @@ This document tracks pieces of code, patterns, or architecture that conflict wit
     *   *Examples*: `legend-pure-m3-core` (platform generation), `legend-engine-pure-code-compiled-core`.
     *   *Impact*: Harder to maintain, less structured than proper rule implementations.
 
+### Validation
+*   [ ] **Disabled ImportValidator**: The `ImportValidator` for `legend-engine-language-pure-compiler` was disabled to unblock the build.
+    *   *Location*: `//legend-engine/legend-engine-core/legend-engine-core-base/legend-engine-core-language-pure/legend-engine-language-pure-compiler:legend-engine-language-pure-compiler`
+    *   *Impact*: Pure import validation is skipped, potentially allowing invalid imports.
+
 ### [Example Category]
 *   [ ] **Item Description**: Brief explanation of why this is an issue (e.g., "Class X uses hardcoded paths").
     *   *Location*: `path/to/file.java`
